@@ -1,0 +1,10 @@
+*.exe
+*.zip
+*.pdb
+*.obj
+*.user
+.vs/
+bin/
+obj/
+*.sqlite
+profiles.xml
