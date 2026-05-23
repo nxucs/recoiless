@@ -1,6 +1,12 @@
 # Recoiless
 
-Recoiless is a portable Windows accessibility utility for configuring mouse movement compensation profiles. It is built as a lightweight C# Windows Forms app with local-only profile storage, game/loadout organization, staged tuning, and hotkey-based switching.
+Recoiless is a portable Windows accessibility app for configuring mouse movement compensation profiles. It is built as a lightweight C# Windows Forms app with local-only profile storage, game/loadout organization, staged tuning, and hotkey-based switching.
+
+<p align="center">
+  <strong>Support this accessibility app</strong><br>
+  If Recoiless helps you, you can support development here:<br>
+  <a href="https://buymeacoffee.com/nxucs">buymeacoffee.com/nxucs</a>
+</p>
 
 > Recoiless is intended for personal accessibility and input-assistance use. Respect the rules and terms of service for any software you use it with.
 
