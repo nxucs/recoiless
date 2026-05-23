@@ -4,7 +4,7 @@ Recoiless is a portable Windows accessibility app for configuring mouse movement
 
 <p align="center">
   <strong>Support this accessibility app</strong><br>
-  If Recoiless helps you, you can support development here:<br>
+  Recoiless is completely free. If it helps you, you can support development here:<br>
   <a href="https://buymeacoffee.com/nxucs">buymeacoffee.com/nxucs</a>
 </p>
 
@@ -30,11 +30,12 @@ Recoiless is a portable Windows accessibility app for configuring mouse movement
 - INI import support for simple recoil configuration files.
 - Dark, borderless, resizable UI.
 
-## Download
+## Installation and Usage
 
-If this repository has GitHub Releases, download the latest `Recoiless.exe` from the Releases page.
-
-You can also build from source using the steps below.
+1. Download the latest release from the [Releases](https://github.com/nxucs/recoiless/releases) tab, or download the latest GitHub Actions artifact.
+2. Extract the archive into a folder.
+3. Run `Recoiless.exe`.
+4. Configure game profiles and weapon profiles.
 
 ## Build From Source
 
