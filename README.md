@@ -31,7 +31,7 @@ Recoiless is a portable Windows accessibility app for configuring mouse movement
 - Per-profile hotkeys with Ctrl, Alt, and Shift modifier support.
 - Optional topmost app pin.
 - Optional topmost recoil timer overlay with adjustable size.
-- INI import support for simple recoil configuration files.
+- Profiles XML import for moving complete setups between installs.
 - Dark, borderless, resizable UI.
 
 ## Installation and Usage
@@ -40,6 +40,8 @@ Recoiless is a portable Windows accessibility app for configuring mouse movement
 2. Extract the archive into a folder.
 3. Run `Recoiless.exe`.
 4. Configure game profiles and weapon profiles.
+
+To move profiles to another install, copy your `profiles.xml` file or use **Profiles Database > Import Profiles XML** in the app.
 
 ## Build From Source
 
@@ -68,11 +70,7 @@ This repository includes a Windows build workflow at `.github/workflows/build.ym
 
 User-created profile data lives in `profiles.xml`. That file can contain personal game/loadout configuration, so it is excluded from source control by `.gitignore`.
 
-The repository includes only a generic sample INI file:
-
-```text
-examples/example-recoil.ini
-```
+That `profiles.xml` file is the complete profile/settings database for Recoiless. Copying or importing it is the supported way to transfer all games, loadouts, weapon settings, stage settings, hotkeys, and app profile preferences.
 
 ## Repository Layout
 
@@ -81,7 +79,6 @@ Recoiless.cs             Main Windows Forms app
 Recoiless.manifest       Requests administrator privileges
 assets/                  Crosshair logo and Windows app icon
 build.bat                Local Windows build script
-examples/                Sample import files
 .github/workflows/       GitHub Actions CI
 ```
 

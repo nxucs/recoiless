@@ -322,6 +322,12 @@ namespace RecoilessApp
                 db = new ProfileDatabase();
             }
 
+            NormalizeDatabase();
+        }
+
+        private void NormalizeDatabase()
+        {
+            if (db == null) db = new ProfileDatabase();
             if (db.Games == null) db.Games = new List<GameLoadout>();
             if (db.Games.Count == 0)
             {
@@ -904,6 +910,8 @@ namespace RecoilessApp
             TabPage tabDB = new TabPage("Profiles Database");
             tabDB.BackColor = cSurface;
             tabDB.ForeColor = cFg;
+            tabDB.AutoScroll = true;
+            tabDB.AutoScrollMinSize = new Size(0, 330);
 
             Label lblGame = new Label() { Text = "GAME:", Location = new Point(10, 13), AutoSize = true, ForeColor = cFgDim, Font = new Font("Segoe UI", 7.5f, FontStyle.Bold) };
             tabDB.Controls.Add(lblGame);
@@ -959,14 +967,14 @@ namespace RecoilessApp
             btnMakeActive.Click += BtnMakeActive_Click;
             tabDB.Controls.Add(btnMakeActive);
 
-            Button btnImport = StyleBtn("Import .ini Files as New Profiles", new Point(10, 288), 355, 30);
+            Button btnImport = StyleBtn("Import Profiles XML", new Point(10, 288), 355, 30);
             btnImport.Click += BtnImport_Click;
             tabDB.Controls.Add(btnImport);
 
             // Manual resize handler for Profiles Database tab to guarantee layout
             tabDB.Resize += (s, e) => {
-                int tw = tabDB.ClientSize.Width;
-                int th = tabDB.ClientSize.Height;
+                int tw = Math.Max(355, tabDB.ClientSize.Width);
+                int th = Math.Max(330, tabDB.ClientSize.Height);
 
                 // Game row: label + combo fixed, text box fills, then 3 buttons pinned right
                 int btnAreaW = 85; // 25*3 + 5*2 spacing
@@ -1243,72 +1251,36 @@ namespace RecoilessApp
         private void BtnImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "INI Files (*.ini)|*.ini|All Files (*.*)|*.*";
-            ofd.Title = "Import Recoil Configuration";
-            ofd.Multiselect = true;
+            ofd.Filter = "Recoiless Profiles XML (*.xml)|*.xml|All Files (*.*)|*.*";
+            ofd.Title = "Import Recoiless Profiles XML";
+            ofd.Multiselect = false;
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                int importedCount = 0;
                 try
                 {
-                    foreach (string fileName in ofd.FileNames)
+                    ProfileDatabase importedDb;
+                    XmlSerializer serializer = new XmlSerializer(typeof(ProfileDatabase));
+                    using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read))
                     {
-                        string[] lines = File.ReadAllLines(fileName);
-                        decimal iniDown = 0, iniRight = 0, iniLeft = 0;
-
-                        foreach (string rawLine in lines)
-                        {
-                            string line = rawLine.Trim();
-                            // Usually these headers exist in standard configs to denote specific scopes
-                            if (line.StartsWith("[") || string.IsNullOrEmpty(line)) continue;
-
-                            string[] parts = line.Split('=');
-                            if (parts.Length != 2) continue;
-
-                            string key = parts[0].Trim();
-                            string val = parts[1].Trim();
-                            decimal parsed;
-                            if (!decimal.TryParse(val, out parsed)) continue;
-
-                            if (key == "Down") iniDown = parsed;
-                            else if (key == "Right") iniRight = parsed;
-                            else if (key == "Left")
-                            {
-                                // Normalizing negative convention: Left=-0.5 means pull left
-                                if (parsed < 0) parsed = Math.Abs(parsed);
-                                iniLeft = parsed;
-                            }
-                        }
-
-                        // Convert .ini values to our internal scale (~2.35 multiplier)
-                        decimal iniScale = 2.35M;
-                        iniDown = Math.Round(iniDown * iniScale, 2);
-                        iniRight = Math.Round(iniRight * iniScale, 2);
-                        iniLeft = Math.Round(iniLeft * iniScale, 2);
-
-                        string profileName = Path.GetFileNameWithoutExtension(fileName);
-
-                        Profile newProfile = new Profile();
-                        newProfile.Name = profileName;
-                        newProfile.W1_Down = iniDown;
-                        newProfile.W1_Right = iniRight;
-                        newProfile.W1_Left = iniLeft;
-
-                        if (activeGame == null) activeGame = db.Games[0];
-                        activeGame.Profiles.Add(newProfile);
-                        importedCount++;
+                        importedDb = serializer.Deserialize(fs) as ProfileDatabase;
                     }
 
-                    RefreshList();
+                    if (importedDb == null)
+                        throw new InvalidOperationException("The selected file is not a valid Recoiless profiles database.");
+
+                    db = importedDb;
+                    NormalizeDatabase();
+                    RefreshGameList();
+                    ApplyProfileToUI();
                     SaveDatabase();
 
-                    MessageBox.Show("Successfully imported " + importedCount + " profile(s).",
+                    MessageBox.Show("Successfully imported profiles from: " + Path.GetFileName(ofd.FileName),
                         "Import Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Failed to import: " + ex.Message, "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to import profiles XML: " + ex.Message, "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
