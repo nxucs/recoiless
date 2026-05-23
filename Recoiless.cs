@@ -611,9 +611,36 @@ namespace RecoilessApp
         private static readonly Color cFg       = Color.FromArgb(220, 225, 235);  // primary text
         private static readonly Color cFgDim    = Color.FromArgb(140, 148, 168);  // secondary text
 
+        private Icon LoadAppIcon()
+        {
+            try
+            {
+                System.Reflection.Assembly assembly = typeof(RecoilessForm).Assembly;
+                using (Stream stream = assembly.GetManifestResourceStream("RecoilessIcon.ico"))
+                {
+                    if (stream != null)
+                        return new Icon(stream);
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                return Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         private void InitializeComponent()
         {
             this.Text = "Recoiless - Accessibility App";
+            Icon appIcon = LoadAppIcon();
+            if (appIcon != null) this.Icon = appIcon;
             this.ClientSize = new Size(414, 1020);
             this.MinimumSize = new Size(384, 395);
             this.AutoScaleMode = AutoScaleMode.None;
@@ -652,7 +679,17 @@ namespace RecoilessApp
                 }
             };
 
-            Label lblTitle = new Label() { Name = "lblTitle", Text = "  RECOILESS", ForeColor = cAccent, Location = new Point(6, 8), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
+            PictureBox picLogo = new PictureBox() { Name = "picLogo", Location = new Point(10, 7), Size = new Size(18, 18), SizeMode = PictureBoxSizeMode.Zoom, BackColor = cTopBar };
+            if (this.Icon != null) picLogo.Image = this.Icon.ToBitmap();
+            picLogo.MouseDown += (s, e) => {
+                if (e.Button == MouseButtons.Left) {
+                    ReleaseCapture();
+                    SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                }
+            };
+            topBar.Controls.Add(picLogo);
+
+            Label lblTitle = new Label() { Name = "lblTitle", Text = "RECOILESS", ForeColor = cAccent, Location = new Point(35, 8), AutoSize = true, Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
             lblTitle.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left) {
                     ReleaseCapture();
@@ -661,7 +698,7 @@ namespace RecoilessApp
             };
             topBar.Controls.Add(lblTitle);
 
-            Label lblWatermark = new Label() { Name = "lblWatermark", Text = "by nxucs", ForeColor = cFgDim, BackColor = cTopBar, Location = new Point(95, 10), AutoSize = true, Font = new Font("Segoe UI", 7.5f, FontStyle.Regular) };
+            Label lblWatermark = new Label() { Name = "lblWatermark", Text = "by nxucs", ForeColor = cFgDim, BackColor = cTopBar, Location = new Point(118, 10), AutoSize = true, Font = new Font("Segoe UI", 7.5f, FontStyle.Regular) };
             lblWatermark.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left) {
                     ReleaseCapture();
@@ -700,7 +737,7 @@ namespace RecoilessApp
             btnClose.Click += (s, e) => { this.Close(); };
             topBar.Controls.Add(btnClose);
 
-            pnlTopProfileStatus = new Panel() { Location = new Point(152, 5), Size = new Size(Math.Max(90, this.ClientSize.Width - 268), 22), BackColor = Color.FromArgb(24, 26, 33), Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right };
+            pnlTopProfileStatus = new Panel() { Location = new Point(174, 5), Size = new Size(Math.Max(90, this.ClientSize.Width - 290), 22), BackColor = Color.FromArgb(24, 26, 33), Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right };
             pnlTopProfileStatus.MouseDown += (s, e) => {
                 if (e.Button == MouseButtons.Left) {
                     ReleaseCapture();

@@ -1,5 +1,9 @@
 # Recoiless
 
+<p align="center">
+  <img src="assets/recoiless-crosshair.svg" alt="Recoiless crosshair logo" width="112">
+</p>
+
 Recoiless is a portable Windows accessibility app for configuring mouse movement compensation profiles. It is built as a lightweight C# Windows Forms app with local-only profile storage, game/loadout organization, staged tuning, and hotkey-based switching.
 
 <p align="center">
@@ -75,6 +79,7 @@ examples/example-recoil.ini
 ```text
 Recoiless.cs             Main Windows Forms app
 Recoiless.manifest       Requests administrator privileges
+assets/                  Crosshair logo and Windows app icon
 build.bat                Local Windows build script
 examples/                Sample import files
 .github/workflows/       GitHub Actions CI

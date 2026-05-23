@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Recoiless crosshair logo</title>
+  <desc id="desc">A blue crosshair mark on a dark rounded square background.</desc>
+  <rect width="256" height="256" rx="56" fill="#181a21"/>
+  <circle cx="128" cy="128" r="80" fill="#20232c" stroke="#568cf5" stroke-width="14"/>
+  <circle cx="128" cy="128" r="34" fill="none" stroke="#dce1eb" stroke-width="10"/>
+  <circle cx="128" cy="128" r="7" fill="#568cf5"/>
+  <path d="M128 28v54M128 174v54M28 128h54M174 128h54" stroke="#568cf5" stroke-width="16" stroke-linecap="round"/>
+  <path d="M128 96v64M96 128h64" stroke="#dce1eb" stroke-width="8" stroke-linecap="round"/>
+</svg>

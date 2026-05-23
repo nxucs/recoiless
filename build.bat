@@ -12,7 +12,7 @@ if not exist "%CSC%" (
     exit /b 1
 )
 
-"%CSC%" /nologo /target:winexe /win32manifest:Recoiless.manifest /out:Recoiless.exe Recoiless.cs
+"%CSC%" /nologo /target:winexe /win32manifest:Recoiless.manifest /win32icon:assets\recoiless.ico /resource:assets\recoiless.ico,RecoilessIcon.ico /out:Recoiless.exe Recoiless.cs
 if %errorlevel% neq 0 (
     echo Build Failed!
     exit /b %errorlevel%
