@@ -3,8 +3,11 @@
 *.pdb
 *.obj
 *.user
+*.suo
 .vs/
 bin/
 obj/
 *.sqlite
+
+# Local user profile data. Do not publish personal loadout/profile exports.
 profiles.xml
