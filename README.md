@@ -12,8 +12,9 @@ Recoiless is an accessibility application designed to mitigate game-specific rec
 1. Download the latest release from the [Releases](https://github.com/nxucs/recoiless/releases) tab.
 2. Extract the archive into a folder.
 3. Run `Recoiless.exe`.
+4. Configure game profiles and weapon/character profiles. 
 
 *Note: You do not need to install anything; this is a standalone portable executable.*
 
-## Building
-Run `build.bat` on a Windows machine with the .NET Framework 4.0+ installed to instantly compile the executable using `csc.exe`.
+## SUPPORT
+This app is completely free, but if you'd like to support me, please feel free to here: **https://buymeacoffee.com/nxucs**
